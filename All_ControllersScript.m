@@ -54,40 +54,19 @@ distanceStep = (v)*TsD; %run simulation Main first
 distance = 20;
 xc = 0:0.1:distance;
 yc = zeros(1,length(xc));
-radius = 10;
-xc = [xc radius*cos(-pi/2:pi/64:0)+distance];
-yc = [yc radius*sin(-pi/2:pi/64:0)+radius];
+radius = 20;
+xc = [xc radius*cos(pi/2:-pi/64:pi/4)+distance];
+yc = [yc radius*sin(pi/2:-pi/64:pi/4)-radius];
 ye = yc(end);
 xe = xc(end);
-yb = ye:0.1:ye+3*distance;
-xc = [xc xe*ones(1,length(yb))];
+yb = ye:-0.1*sin(pi/4):ye-2*distance*sin(pi/4);
+xb = xe:0.1*cos(pi/4):xe+2*distance*cos(pi/4);
+xc = [xc xb];
 yc = [yc yb];
 TestPath = [xc' yc'];
 total_length = arclength(TestPath(:,1),TestPath(:,2),'linear');
 SimulinkPath = interparc(0:(distanceStep/total_length):1,TestPath(:,1),TestPath(:,2),'linear');
+yd = diff(SimulinkPath(:,2));
+xd = diff(SimulinkPath(:,1));
+vd = [0; atan2(yd,xd)];
 PathData = length(SimulinkPath)-1;
-%%
-%open_system('All_Controllers') %If you want to the simulink file
-sim('All_Controllers') %Run simulation
-disp('Running All_Controllers')
-disp('Plotting')
-time=linspace(0,10,length(LQRLean));
-
-
-figure(1) %Lean angle plot
-hold on
-plot(time, LSPIDLean,time, PIDLean, time, LQRLean,'LineWidth',1)
-plot(time, FuzzyLean,'Color',[0.4660 0.6740 0.1880],'LineWidth',1)
-hold off
-axis([0 8 -2 2])
-
-
-figure(2) %Steering angle plot
-timesteer=linspace(0,10,length(LQRSteer));
-hold on
-plot(timesteer, -LSPIDSteer, timesteer, -PIDSteer, timesteer, -LQRSteer,'LineWidth',1)
-plot(timesteer, -FuzzySteer,'Color',[0.4660 0.6740 0.1880],'LineWidth',1)
-hold off
-axis([0 8 -10 10])
-
-fprintf('Finished.\n');
