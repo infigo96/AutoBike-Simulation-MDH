@@ -21,7 +21,17 @@ TsD = 0.1;
 Tsm=Ts;
 matrixIx = 1;
 
+P_Balancing = 3.418;
+I_Balancing = 1.327;
+D_Balancing = 0.0646;
 
+P_Heading = -0.2;
+I_Heading = 0;
+D_Heading = 0;
+
+P_Lateral = 0;
+I_Lateral = 0;
+D_Lateral = 0;
 
 %% P, PD, Fuzzy
 %steering system step response matching
