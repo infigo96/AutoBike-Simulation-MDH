@@ -18,7 +18,8 @@ bike_params = [g h b a lambda m]; % Store bike parameters in a vector
 %Different sample rates
 Ts=0.01;
 TsD = 0.1;
-Tsm=Ts/6;
+Tsm=Ts;
+matrixIx = 1;
 
 
 
@@ -50,7 +51,7 @@ FinalValue=1; %disturbance amplitude
 
 %%
 w = warning ('off','all');
-distanceStep = (v)*TsD; %run simulation Main first
+distanceStep = (v)*Ts; %run simulation Main first
 distance = 20;
 xc = 0:0.1:distance;
 yc = zeros(1,length(xc));
@@ -69,4 +70,5 @@ SimulinkPath = interparc(0:(distanceStep/total_length):1,TestPath(:,1),TestPath(
 yd = diff(SimulinkPath(:,2));
 xd = diff(SimulinkPath(:,1));
 vd = [0; atan2(yd,xd)];
+SimulinkPath(:,3) = vd;
 PathData = length(SimulinkPath)-1;
