@@ -61,7 +61,7 @@ FinalValue=1; %disturbance amplitude
 
 %%
 w = warning ('off','all');
-distanceStep = (v)*Ts; %run simulation Main first
+distanceStep = v*Ts; %run simulation Main first
 distance = 20;
 xc = 0:0.1:distance;
 yc = zeros(1,length(xc));

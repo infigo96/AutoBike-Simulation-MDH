@@ -2,6 +2,7 @@
 % close all;
 % clc;
 bikePos = [[5 5]; [5 6]; [5 7]; [6 5]; [6 7]; [7 5]; [7 6]; [7 7]];
+%[6+3*cos(deg2rad((30)))+cos(deg2rad((30+90))) 6+3*sin(deg2rad((30)))+sin(deg2rad((30+90)))]
 % scatter(bikePos(:,1),bikePos(:,2))
 curvepos = [6 6];
 angle = [0 30 45 60 90 120 135 150 180 -150 -135 240 270 300 -45 330]';
@@ -17,9 +18,9 @@ for j= 1:16
 
     for i = 1:8
         usnit = dot([bikePos(i,1)-curvepos(1), bikePos(i,2)-curvepos(2)],n); 
-        if(usnit > 0.00000000001)
+        if(usnit > 0)
             scatter(bikePos(i,1),bikePos(i,2),'g');
-        elseif(abs(usnit) < 0.00000000001) 
+        elseif(abs(usnit) == 0) 
             scatter(bikePos(i,1),bikePos(i,2),'b');
         else
             scatter(bikePos(i,1),bikePos(i,2),'r');

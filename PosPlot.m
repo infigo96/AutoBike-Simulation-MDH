@@ -7,6 +7,9 @@ legend('Reference path', 'Bicycle path');
 set(gca,'FontSize',18) % Creates an axes and sets its FontSize to 18
 xlabel('X (m)');
 ylabel('Y (m)');
+ylim([-50 20])
+xlim([0 70])
+
 
 subplot(1,2,2);
 plot(heading.Time,heading.Data(:,1));
