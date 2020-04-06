@@ -7,7 +7,7 @@ Simulink.sdi.clear %Clear simulink data inspector
 %Point-mass model parameters
 % AB3 data from PM15... (without Bob)
 a=0.505; 
-v=14/3.6;
+v=10/3.6;
 h=0.562;
 b=1.115; 
 g=9.82;
@@ -21,15 +21,31 @@ TsD = 0.1;
 Tsm=Ts;
 matrixIx = 1;
 
-P_Balancing = 3.418;
-I_Balancing = 1.327;
-D_Balancing = 0.0646;
+%8 Km/h balancing
+% P_Balancing = 7.791;
+% I_Balancing = 2.523;
+% D_Balancing = 0.0524;
 
-P_Heading = -0.2;
+% 10 Km/h balancing 2 weak
+P_Balancing = 4.8049;
+I_Balancing = 1.1908;
+D_Balancing = 0.0566;
+
+%10 Km/h balancing
+% P_Balancing = 5.7844;
+% I_Balancing = 1.6066;
+% D_Balancing = 0.0545;
+
+%14 Km/h balancing
+% P_Balancing = 3.418;
+% I_Balancing = 1.327;
+% D_Balancing = 0.0646;
+
+P_Heading = 0;
 I_Heading = 0;
 D_Heading = 0;
 
-P_Lateral = 0;
+P_Lateral = -0.4;
 I_Lateral = 0;
 D_Lateral = 0;
 
@@ -52,6 +68,7 @@ Noise=1;
 
 %Initialise the state space with Init_Angle degree lean angle
 Init_Angle=0;
+Init_Yaw = 90;
 Init_condLQR=[0; deg2rad(Init_Angle); 0; 0];
 FinalValue=1; %disturbance amplitude
 
@@ -62,23 +79,27 @@ FinalValue=1; %disturbance amplitude
 %%
 w = warning ('off','all');
 distanceStep = v*Ts; %run simulation Main first
-distance = 20;
+distance = 30;
 xc = 0:0.1:distance;
 yc = zeros(1,length(xc));
 radius = 20;
-xc = [xc radius*cos(pi/2:-pi/64:pi/4)+distance];
-yc = [yc radius*sin(pi/2:-pi/64:pi/4)-radius];
-ye = yc(end);
-xe = xc(end);
-yb = ye:-0.1*sin(pi/4):ye-2*distance*sin(pi/4);
-xb = xe:0.1*cos(pi/4):xe+2*distance*cos(pi/4);
-xc = [xc xb];
-yc = [yc yb];
+% xc = [xc radius*cos(pi/2:-pi/64:pi/4)+distance];
+% yc = [yc radius*sin(pi/2:-pi/64:pi/4)-radius];
+% ye = yc(end);
+% xe = xc(end);
+% yb = ye:-0.1*sin(pi/4):ye-2*distance*sin(pi/4);
+% xb = xe:0.1*cos(pi/4):xe+2*distance*cos(pi/4);
+% xc = [xc xb];
+% yc = [yc yb];
+angle = atan2(133.360000000479, 4.219907387708115);
+
+yc = 0:0.1*sin(angle):160*sin(angle);
+xc = 0:0.1*cos(angle):160*cos(angle);
 TestPath = [xc' yc'];
 total_length = arclength(TestPath(:,1),TestPath(:,2),'linear');
 SimulinkPath = interparc(0:(distanceStep/total_length):1,TestPath(:,1),TestPath(:,2),'linear');
 yd = diff(SimulinkPath(:,2));
 xd = diff(SimulinkPath(:,1));
-vd = [0; atan2(yd,xd)];
+vd = [atan2(yd,xd); atan2(yd(end),xd(end))];
 SimulinkPath(:,3) = vd;
 PathData = length(SimulinkPath)-1;
