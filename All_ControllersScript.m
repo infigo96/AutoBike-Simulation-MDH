@@ -68,7 +68,7 @@ sys = tf((a*v/(h*b))*[1,v/a],[1,0,-g/h]);
 Noise=1;
 
 %Initialise the state space with Init_Angle degree lean angle
-Init_Angle=0;
+Init_Angle=1;
 Init_Yaw = 0;
 Init_condLQR=[0; deg2rad(Init_Angle); 0; 0];
 FinalValue=1; %disturbance amplitude

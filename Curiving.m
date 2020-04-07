@@ -1,4 +1,5 @@
 close all;
+clc;
 %w = warning ('off','all');
 distanceStep = (v)*Ts; %run simulation Main first
 
@@ -25,7 +26,7 @@ PreparedPath{1}(:,3) = vd;
 PathStop(1) = length(PreparedPath{1})-1;
 
 %%%%%%%%%%   Straight %%%%%%%%
-distance = 50;
+distance = 100;
 xc = 0:0.1:distance;
 yc = zeros(1,length(xc));
 TestPath = [xc' yc'];
@@ -81,13 +82,15 @@ for(j=1:1)
     RMSE(j,:) = [inf inf inf inf];
     stid(j,:) = [inf inf inf inf];
     for(i=1:4)
+       
+        P_Lateral = 2;
+        I_Lateral = 0;
+        D_Lateral = 0.5;
+        
         P_Heading = 0;
         I_Heading = 0;
         D_Heading = 0;
-
-        P_Lateral = -0.8;
-        I_Lateral = 0;
-        D_Lateral = 3;
+        
         SimulinkPath = PreparedPath{i};
         PathData = PathStop(i);
         try
@@ -101,16 +104,44 @@ for(j=1:1)
             SHeadErr{j,i}.Data = squeeze(SHeadErr{j,i}.Data);
             
             meen(j,i) = mean(LatError.Data);
-            RMSE(j,i) = sqrt((sum(LatError.Data)^2)/(length(LatError.Data)));
+            RMSE(j,i) = sqrt((sum((LatError.Data).^2))/(length(LatError.Data)));
             stid(j,i) = std(LatError.Data);
         end
     end
 end
 RMSE
+PIDS = [P_Lateral I_Lateral D_Lateral P_Heading I_Heading D_Heading];
 %%
+b = 1;
+subplot(2,2,b)
+hold on;
+plot(SPosition{b}.Data(:,1),SPosition{b}.Data(:,2));
+plot(SPosition{b}.Data(:,3),SPosition{b}.Data(:,4));
+plot(linspace(1,30,length(SLatErr{b}.Data)),SLatErr{b}.Data);
+plot(linspace(1,30,length(SHeadErr{b}.Data(1,1,:))),SHeadErr{b}.Data(1,1,:));
+legend
+
+b = 2;
+subplot(2,2,b)
+hold on;
+plot(SPosition{b}.Data(:,1),SPosition{b}.Data(:,2));
+plot(SPosition{b}.Data(:,3),SPosition{b}.Data(:,4));
+plot(linspace(1,30,length(SLatErr{b}.Data)),SLatErr{b}.Data);
+plot(linspace(1,30,length(SHeadErr{b}.Data(1,1,:))),SHeadErr{b}.Data(1,1,:));
+legend
+ylim([-1 1]);
+
 b = 3;
-%plot(SimulinkPath(:,1),SimulinkPath(:,2));
-figure
+subplot(2,2,b)
+hold on;
+plot(SPosition{b}.Data(:,1),SPosition{b}.Data(:,2));
+plot(SPosition{b}.Data(:,3),SPosition{b}.Data(:,4));
+plot(linspace(1,30,length(SLatErr{b}.Data)),SLatErr{b}.Data);
+plot(linspace(1,30,length(SHeadErr{b}.Data(1,1,:))),SHeadErr{b}.Data(1,1,:));
+legend
+
+b = 4;
+subplot(2,2,b)
 hold on;
 plot(SPosition{b}.Data(:,1),SPosition{b}.Data(:,2));
 plot(SPosition{b}.Data(:,3),SPosition{b}.Data(:,4));
