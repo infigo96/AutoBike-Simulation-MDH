@@ -1,5 +1,5 @@
 close all;
-clc;
+% clc;
 %w = warning ('off','all');
 distanceStep = (v)*Ts; %run simulation Main first
 
@@ -83,11 +83,11 @@ for(j=1:1)
     stid(j,:) = [inf inf inf inf];
     for(i=1:4)
        
-        P_Lateral = 1.3;
-        I_Lateral = 0;
-        D_Lateral = 0;
+        P_Lateral = 3;
+        I_Lateral = 0.2;
+        D_Lateral = 0.0;
         
-        P_Heading = -.2;
+        P_Heading = -0.3;
         I_Heading = 0;
         D_Heading = 0;
         
