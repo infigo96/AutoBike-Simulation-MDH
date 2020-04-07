@@ -83,11 +83,11 @@ for(j=1:1)
     stid(j,:) = [inf inf inf inf];
     for(i=1:4)
        
-        P_Lateral = 2;
+        P_Lateral = 1.3;
         I_Lateral = 0;
-        D_Lateral = 0.5;
+        D_Lateral = 0;
         
-        P_Heading = 0;
+        P_Heading = -.2;
         I_Heading = 0;
         D_Heading = 0;
         
@@ -119,7 +119,7 @@ plot(SPosition{b}.Data(:,1),SPosition{b}.Data(:,2));
 plot(SPosition{b}.Data(:,3),SPosition{b}.Data(:,4));
 plot(linspace(1,30,length(SLatErr{b}.Data)),SLatErr{b}.Data);
 plot(linspace(1,30,length(SHeadErr{b}.Data(1,1,:))),SHeadErr{b}.Data(1,1,:));
-legend
+legend('Reference path', 'Bicycle Path');
 
 b = 2;
 subplot(2,2,b)
@@ -128,7 +128,8 @@ plot(SPosition{b}.Data(:,1),SPosition{b}.Data(:,2));
 plot(SPosition{b}.Data(:,3),SPosition{b}.Data(:,4));
 plot(linspace(1,30,length(SLatErr{b}.Data)),SLatErr{b}.Data);
 plot(linspace(1,30,length(SHeadErr{b}.Data(1,1,:))),SHeadErr{b}.Data(1,1,:));
-legend
+legend('Reference path', 'Bicycle Path');
+
 ylim([-1 1]);
 
 b = 3;
@@ -138,7 +139,8 @@ plot(SPosition{b}.Data(:,1),SPosition{b}.Data(:,2));
 plot(SPosition{b}.Data(:,3),SPosition{b}.Data(:,4));
 plot(linspace(1,30,length(SLatErr{b}.Data)),SLatErr{b}.Data);
 plot(linspace(1,30,length(SHeadErr{b}.Data(1,1,:))),SHeadErr{b}.Data(1,1,:));
-legend
+legend('Reference path', 'Bicycle Path');
+
 
 b = 4;
 subplot(2,2,b)
@@ -147,7 +149,8 @@ plot(SPosition{b}.Data(:,1),SPosition{b}.Data(:,2));
 plot(SPosition{b}.Data(:,3),SPosition{b}.Data(:,4));
 plot(linspace(1,30,length(SLatErr{b}.Data)),SLatErr{b}.Data);
 plot(linspace(1,30,length(SHeadErr{b}.Data(1,1,:))),SHeadErr{b}.Data(1,1,:));
-legend
+legend('Reference path', 'Bicycle Path');
+
 
 % figure;
 % hold on;
