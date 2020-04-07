@@ -3,6 +3,7 @@ clc
 clear
 close all
 Simulink.sdi.clear %Clear simulink data inspector
+%%
 
 %Point-mass model parameters
 % AB3 data from PM15... (without Bob)
@@ -41,13 +42,13 @@ D_Balancing = 0.0566;
 % I_Balancing = 1.327;
 % D_Balancing = 0.0646;
 
-P_Heading = 0;
-I_Heading = 0;
-D_Heading = 0;
-
-P_Lateral = -0.4;
-I_Lateral = 0;
-D_Lateral = 0;
+% P_Heading = 0;
+% I_Heading = 0;
+% D_Heading = 0;
+% 
+% P_Lateral = -0.4;
+% I_Lateral = 0;
+% D_Lateral = 1.5;
 
 %% P, PD, Fuzzy
 %steering system step response matching
@@ -68,7 +69,7 @@ Noise=1;
 
 %Initialise the state space with Init_Angle degree lean angle
 Init_Angle=0;
-Init_Yaw = 90;
+Init_Yaw = 0;
 Init_condLQR=[0; deg2rad(Init_Angle); 0; 0];
 FinalValue=1; %disturbance amplitude
 
@@ -103,3 +104,14 @@ xd = diff(SimulinkPath(:,1));
 vd = [atan2(yd,xd); atan2(yd(end),xd(end))];
 SimulinkPath(:,3) = vd;
 PathData = length(SimulinkPath)-1;
+%%
+P_Heading = 0;
+I_Heading = 0;
+D_Heading = 0;
+
+P_Lateral = -0.8;
+I_Lateral = 0;
+D_Lateral = 3;
+
+sim('All_Controllers') %Run simulation
+
