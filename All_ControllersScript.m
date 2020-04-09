@@ -70,6 +70,8 @@ Noise=1;
 %Initialise the state space with Init_Angle degree lean angle
 Init_Angle=1;
 Init_Yaw = 0;
+Init_X = 0;
+Init_Y = 0;
 Init_condLQR=[0; deg2rad(Init_Angle); 0; 0];
 FinalValue=1; %disturbance amplitude
 
