@@ -19,3 +19,22 @@ legend('Reference heading', 'Bicycle heading');
 set(gca,'FontSize',18) % Creates an axes and sets its FontSize to 18
 xlabel('Time (s)');
 ylabel('Angle (degrees)');
+%%
+figure
+subplot(1,2,1)
+plot(roll)
+hold on
+plot(LatError)
+ylim([-30 30])
+xlim([9 14])
+legend('lean angle (degrees)','lateral error (m)'); 
+set(gca,'FontSize',18) % Creates an axes and sets its FontSize to 18
+
+subplot(1,2,2)
+plot(PIDSteer1)
+hold on
+plot(LatError)
+ylim([-30 30])
+xlim([9 14]);
+legend('steering angle (degrees)','lateral error (m)'); 
+set(gca,'FontSize',18) % Creates an axes and sets its FontSize to 18
