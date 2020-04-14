@@ -68,7 +68,7 @@ sys = tf((a*v/(h*b))*[1,v/a],[1,0,-g/h]);
 Noise=1;
 
 %Initialise the state space with Init_Angle degree lean angle
-Init_Angle=1;
+Init_Angle=0;
 Init_Yaw = 0;
 Init_X = 0;
 Init_Y = 0;
@@ -111,9 +111,9 @@ P_Heading = 0;
 I_Heading = 0;
 D_Heading = 0;
 
-P_Lateral = -0.8;
-I_Lateral = 0;
-D_Lateral = 3;
+P_Lateral = 1;
+I_Lateral = 0.1;
+D_Lateral = 1;
 
 sim('All_Controllers') %Run simulation
 
