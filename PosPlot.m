@@ -25,8 +25,9 @@ subplot(1,2,1)
 plot(roll)
 hold on
 plot(LatError)
+plot(LatOut)
 ylim([-30 30])
-xlim([9 14])
+xlim([0 6])
 legend('lean angle (degrees)','lateral error (m)'); 
 set(gca,'FontSize',18) % Creates an axes and sets its FontSize to 18
 
@@ -35,6 +36,6 @@ plot(PIDSteer1)
 hold on
 plot(LatError)
 ylim([-30 30])
-xlim([9 14]);
+xlim([0 6]);
 legend('steering angle (degrees)','lateral error (m)'); 
 set(gca,'FontSize',18) % Creates an axes and sets its FontSize to 18
