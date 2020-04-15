@@ -83,13 +83,13 @@ for(j=1:1)
     stid(j,:) = [inf inf inf inf];
     for(i=1:4)
        
-        P_Lateral = 3;
+        P_Lateral = 10;
         I_Lateral = 0.2;
-        D_Lateral = 0.0;
+        D_Lateral = 0;
         
-        P_Heading = -0.3;
+        P_Heading = -1;
         I_Heading = 0;
-        D_Heading = 0;
+        D_Heading = 0.;
         
         SimulinkPath = PreparedPath{i};
         PathData = PathStop(i);

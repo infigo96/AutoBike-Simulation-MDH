@@ -13,7 +13,7 @@ h=0.562;
 b=1.115; 
 g=9.82;
 m = 25;
-lambda = deg2rad(90-24); % angle of the fork axis [deg]
+lambda = deg2rad(24); % angle of the fork axis [deg]
 bike_params = [g h b a lambda m]; % Store bike parameters in a vector
 
 %Different sample rates
