@@ -22,20 +22,22 @@ ylabel('Angle (degrees)');
 %%
 figure
 subplot(1,2,1)
-plot(roll)
+plot(LatError,'blue')
 hold on
-plot(LatError)
-plot(LatOut)
+plot(LatOut,'black')
+plot(roll,'red')
 ylim([-30 30])
 xlim([0 6])
-legend('lean angle (degrees)','lateral error (m)'); 
+legend('lateral error (m)','lean setpoint (degrees)','lean angle (degrees)'); 
 set(gca,'FontSize',18) % Creates an axes and sets its FontSize to 18
 
 subplot(1,2,2)
-plot(PIDSteer1)
+plot(LatError,'blue')
+
 hold on
-plot(LatError)
+plot(PIDSteer1,'red')
+
 ylim([-30 30])
 xlim([0 6]);
-legend('steering angle (degrees)','lateral error (m)'); 
+legend('lateral error (m)','lean angle (degrees)'); 
 set(gca,'FontSize',18) % Creates an axes and sets its FontSize to 18
