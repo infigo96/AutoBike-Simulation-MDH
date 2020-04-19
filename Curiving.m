@@ -83,13 +83,13 @@ for(j=1:1)
     stid(j,:) = [inf inf inf inf];
     for(i=1:4)
        
-        P_Lateral = 10;
+        P_Lateral = 18;
         I_Lateral = 0.2;
         D_Lateral = 0;
         
         P_Heading = -1;
         I_Heading = 0;
-        D_Heading = 0.;
+        D_Heading = 0.001;
         
         SimulinkPath = PreparedPath{i};
         PathData = PathStop(i);
@@ -117,8 +117,8 @@ subplot(2,2,b)
 hold on;
 plot(SPosition{b}.Data(:,1),SPosition{b}.Data(:,2));
 plot(SPosition{b}.Data(:,3),SPosition{b}.Data(:,4));
-plot(linspace(1,30,length(SLatErr{b}.Data)),SLatErr{b}.Data);
-plot(linspace(1,30,length(SHeadErr{b}.Data(1,1,:))),SHeadErr{b}.Data(1,1,:));
+% plot(linspace(1,30,length(SLatErr{b}.Data)),SLatErr{b}.Data);
+% plot(linspace(1,30,length(SHeadErr{b}.Data(1,1,:))),SHeadErr{b}.Data(1,1,:));
 legend('Reference path', 'Bicycle Path');
 
 b = 2;
@@ -126,8 +126,8 @@ subplot(2,2,b)
 hold on;
 plot(SPosition{b}.Data(:,1),SPosition{b}.Data(:,2));
 plot(SPosition{b}.Data(:,3),SPosition{b}.Data(:,4));
-plot(linspace(1,30,length(SLatErr{b}.Data)),SLatErr{b}.Data);
-plot(linspace(1,30,length(SHeadErr{b}.Data(1,1,:))),SHeadErr{b}.Data(1,1,:));
+% plot(linspace(1,30,length(SLatErr{b}.Data)),SLatErr{b}.Data);
+% plot(linspace(1,30,length(SHeadErr{b}.Data(1,1,:))),SHeadErr{b}.Data(1,1,:));
 legend('Reference path', 'Bicycle Path');
 
 ylim([-1 1]);
@@ -137,8 +137,8 @@ subplot(2,2,b)
 hold on;
 plot(SPosition{b}.Data(:,1),SPosition{b}.Data(:,2));
 plot(SPosition{b}.Data(:,3),SPosition{b}.Data(:,4));
-plot(linspace(1,30,length(SLatErr{b}.Data)),SLatErr{b}.Data);
-plot(linspace(1,30,length(SHeadErr{b}.Data(1,1,:))),SHeadErr{b}.Data(1,1,:));
+% plot(linspace(1,30,length(SLatErr{b}.Data)),SLatErr{b}.Data);
+% plot(linspace(1,30,length(SHeadErr{b}.Data(1,1,:))),SHeadErr{b}.Data(1,1,:));
 legend('Reference path', 'Bicycle Path');
 
 
@@ -147,8 +147,8 @@ subplot(2,2,b)
 hold on;
 plot(SPosition{b}.Data(:,1),SPosition{b}.Data(:,2));
 plot(SPosition{b}.Data(:,3),SPosition{b}.Data(:,4));
-plot(linspace(1,30,length(SLatErr{b}.Data)),SLatErr{b}.Data);
-plot(linspace(1,30,length(SHeadErr{b}.Data(1,1,:))),SHeadErr{b}.Data(1,1,:));
+% plot(linspace(1,30,length(SLatErr{b}.Data)),SLatErr{b}.Data);
+% plot(linspace(1,30,length(SHeadErr{b}.Data(1,1,:))),SHeadErr{b}.Data(1,1,:));
 legend('Reference path', 'Bicycle Path');
 
 
@@ -161,3 +161,4 @@ legend('Reference path', 'Bicycle Path');
 % %plot(SPosition{5,1}.Data(:,3),SPosition{5,1}.Data(:,4));
 % plot(SimulinkPath(:,1),SimulinkPath(:,2));
 % legend;
+PosPlot
