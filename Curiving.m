@@ -4,6 +4,7 @@ close all;
 distanceStep = (v)*Ts; %run simulation Main first
 
 %%%%%%%% 90 Degree %%%%%%%%%%%
+AngleGain = 1; %1 for model 1 guess and 0.5 for "new" model 1
 distance = 20;
 xc = 0:0.1:distance;
 yc = zeros(1,length(xc));
@@ -82,14 +83,13 @@ for(j=1:1)
     RMSE(j,:) = [inf inf inf inf];
     stid(j,:) = [inf inf inf inf];
     for(i=1:4)
-       
-        P_Lateral = 18;
-        I_Lateral = 0.2;
+        P_Lateral = 2;
+        I_Lateral = 0.1;
         D_Lateral = 0;
         
-        P_Heading = -1;
+        P_Heading = -0.2;
         I_Heading = 0;
-        D_Heading = 0.001;
+        D_Heading = 0;
         
         SimulinkPath = PreparedPath{i};
         PathData = PathStop(i);
@@ -97,7 +97,7 @@ for(j=1:1)
             sim('All_Controllers') %Run simulation
             SLatErr{j,i} = LatError;
             SRoll{j,i} = roll;
-            SPosition{j,i} = position;
+            SPosition{j,i} = position; 
             Sheading{j,i} = heading;
             
             SHeadErr{j,i} = HeadError;

@@ -68,10 +68,11 @@ sys = tf((a*v/(h*b))*[1,v/a],[1,0,-g/h]);
 Noise=1;
 
 %Initialise the state space with Init_Angle degree lean angle
+AngleGain = 1; %1 for model 1 guess and 0.5 for "new" model 1
 Init_Angle=1;
 Init_Yaw = 0;
 Init_X = 0;
-Init_Y = 0;
+Init_Y = 1;
 Init_condLQR=[0; deg2rad(Init_Angle); 0; 0];
 FinalValue=1; %disturbance amplitude
 
