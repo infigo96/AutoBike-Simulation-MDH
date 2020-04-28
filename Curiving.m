@@ -4,7 +4,6 @@ close all;
 distanceStep = (v)*Ts; %run simulation Main first
 
 %%%%%%%% 90 Degree %%%%%%%%%%%
-AngleGain = 1; %1 for model 1 guess and 0.5 for "new" model 1
 distance = 20;
 xc = 0:0.1:distance;
 yc = zeros(1,length(xc));
@@ -83,7 +82,7 @@ for(j=1:1)
     RMSE(j,:) = [inf inf inf inf];
     stid(j,:) = [inf inf inf inf];
     for(i=1:4)
-        P_Lateral = 2;
+        P_Lateral = 7;
         I_Lateral = 0.1;
         D_Lateral = 0;
         
