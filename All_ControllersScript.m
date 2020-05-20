@@ -69,10 +69,10 @@ Noise=1;
 
 %Initialise the state space with Init_Angle degree lean angle
 AngleGain = 0.5; %1 for model 1 guess and 0.5 for "new" model 1
-Init_Angle=1;
-Init_Yaw = 0;
-Init_X = 0;
-Init_Y = 0;
+Init_Angle=0.2;
+Init_Yaw = -90;
+Init_X = -1.3;
+Init_Y = 50;
 Init_condLQR=[0; deg2rad(Init_Angle); 0; 0];
 FinalValue=1; %disturbance amplitude
 
@@ -82,39 +82,49 @@ FinalValue=1; %disturbance amplitude
 
 %%
 w = warning ('off','all');
-distanceStep = v*Ts; %run simulation Main first
-distance = 30;
-xc = 0:0.1:distance;
-yc = zeros(1,length(xc));
-radius = 20;
-% xc = [xc radius*cos(pi/2:-pi/64:pi/4)+distance];
-% yc = [yc radius*sin(pi/2:-pi/64:pi/4)-radius];
-% ye = yc(end);
-% xe = xc(end);
-% yb = ye:-0.1*sin(pi/4):ye-2*distance*sin(pi/4);
-% xb = xe:0.1*cos(pi/4):xe+2*distance*cos(pi/4);
-% xc = [xc xb];
-% yc = [yc yb];
-angle = atan2(133.360000000479, 4.219907387708115);
-
-yc = 0:0.1*sin(angle):160*sin(angle);
-xc = 0:0.1*cos(angle):160*cos(angle);
-TestPath = [xc' yc'];
-total_length = arclength(TestPath(:,1),TestPath(:,2),'linear');
-SimulinkPath = interparc(0:(distanceStep/total_length):1,TestPath(:,1),TestPath(:,2),'linear');
-yd = diff(SimulinkPath(:,2));
-xd = diff(SimulinkPath(:,1));
-vd = [atan2(yd,xd); atan2(yd(end),xd(end))];
-SimulinkPath(:,3) = vd;
-PathData = length(SimulinkPath)-1;
+distanceStep = 0.001; 
+distance = -30; 
+startY = 50; 
+startX = -1.3; 
+radius = 15; 
+yc = startY+0:-0.1:startY+distance; 
+xc = startX*ones(1,length(yc)); 
+xc = [xc radius*cos(0:-pi/128:-pi/2)-radius+xc(end)]; 
+yc = [yc radius*sin(0:-pi/128:-pi/2)+yc(end)]; 
+ye = yc(end); 
+xe = xc(end); 
+xb = xe:-0.1:xe+distance; 
+yb = 0*ones(1,length(xb))+ye; 
+ 
+xc = [xc xb]; 
+yc = [yc yb]; 
+TestPath = [xc' yc']; 
+total_length = arclength(TestPath(:,1),TestPath(:,2),'linear'); 
+SimulinkPath = interparc(0:(distanceStep/total_length):1,TestPath(:,1),TestPath(:,2),'linear'); 
+yd = diff(SimulinkPath(:,2)); 
+xd = diff(SimulinkPath(:,1)); 
+vd = wrapTo180([atan2(yd,xd); atan2(yd(end),xd(end))]); 
+SimulinkPath(:,3) = vd; 
+PathData = length(SimulinkPath)-1; 
 %%
-P_Heading = 0;
+P_Lateral = 5;
+I_Lateral = 0.1;
+D_Lateral = 0;
+
+P_Heading = -0.2;
 I_Heading = 0;
 D_Heading = 0;
-
-P_Lateral = -0.8;
-I_Lateral = 0;
-D_Lateral = 3;
-
 sim('All_Controllers') %Run simulation
+
+hold on;
+plot(position.Data(:,1),position.Data(:,2));
+plot(position.Data(:,3),position.Data(:,4));
+legend('Reference path', 'Bicycle Path');
+RMSE = sqrt((sum((LatError.Data).^2))/(length(LatError.Data)))
+stid = std(LatError.Data)
+set(gca,'FontSize',18) % Creates an axes and sets its FontSize to 18
+xlabel('X (m)')
+ylabel('Y (m)')
+
+PosPlot
 

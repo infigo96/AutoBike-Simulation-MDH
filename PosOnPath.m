@@ -14,7 +14,7 @@ for j= 1:16
     hold on;
     xlim([4 8])
     ylim([4 8])
-    n = [cos(deg2rad(angle(j))) sin(deg2rad(angle(j)))];
+    n = [cos(deg2rad(angle(j)-90)) sin(deg2rad(angle(j)-90))];
 
     for i = 1:8
         usnit = dot([bikePos(i,1)-curvepos(1), bikePos(i,2)-curvepos(2)],n); 

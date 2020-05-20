@@ -22,23 +22,38 @@
 
 %%
 figure
-subplot(1,2,1)
-plot(LatError,'blue')
-hold on
-plot(LatOut,'black')
-plot(roll,'red')
-ylim([-30 30])
-%xlim([0 6])
-legend('lateral error (m)','lean setpoint (degrees)','lean angle (degrees)'); 
-set(gca,'FontSize',18) % Creates an axes and sets its FontSize to 18
-
 subplot(1,2,2)
 plot(LatError,'blue')
-
 hold on
-plot(PIDSteer1,'red')
+roll.Data = -roll.Data;
+LeanSet.Data = -LeanSet.Data;
 
-ylim([-30 30])
-%xlim([0 6]);
-legend('lateral error (m)','lean angle (degrees)'); 
+plot(LeanSet,'black')
+plot(roll,'red')
+plot(HeadError,'green');
+ylim([-8 8]);
+xlim([0 35])
+legend('lateral error (m)','lean setpoint (degrees)','lean angle (degrees)','Heading error (degrees)'); 
 set(gca,'FontSize',18) % Creates an axes and sets its FontSize to 18
+xlabel('Time (s)');
+%ylabel('Angle (degree)');
+
+subplot(1,2,1);
+plot(heading.Time, wrapTo180(heading.Data(:,1)+10)-10)
+hold on
+plot(heading.Time, heading.Data(:,2))
+legend('Target heading','Bicycle heading'); 
+set(gca,'FontSize',18) % Creates an axes and sets its FontSize to 18
+
+
+% subplot(1,2,2)
+% plot(LatError,'blue')
+% 
+% hold on
+% plot(PIDSteer1,'red')
+% 
+% ylim([-30 30])
+% legend('lateral error (m)','steering angle (degrees)'); 
+% set(gca,'FontSize',18) % Creates an axes and sets its FontSize to 18
+ xlabel('Time (s)');
+ylabel('Angle (degree)');

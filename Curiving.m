@@ -4,26 +4,29 @@ close all;
 distanceStep = (v)*Ts; %run simulation Main first
 
 %%%%%%%% 90 Degree %%%%%%%%%%%
-distance = 20;
-xc = 0:0.1:distance;
-yc = zeros(1,length(xc));
-radius = 10;
-xc = [xc radius*cos(pi/2:-pi/64:pi/4)+distance];
-yc = [yc radius*sin(pi/2:-pi/64:pi/4)-radius];
-ye = yc(end);
-xe = xc(end);
-yb = ye:-0.1*sin(pi/4):ye-2*distance*sin(pi/4);
-xb = xe:0.1*cos(pi/4):xe+2*distance*cos(pi/4);
-xc = [xc xb];
-yc = [yc yb];
-TestPath = [xc' yc'];
-total_length = arclength(TestPath(:,1),TestPath(:,2),'linear');
-PreparedPath{1} = interparc(0:(distanceStep/total_length):1,TestPath(:,1),TestPath(:,2),'linear');
-yd = diff(PreparedPath{1}(:,2));
-xd = diff(PreparedPath{1}(:,1));
-vd = [atan2(yd,xd); atan2(yd(end),xd(end))];
-PreparedPath{1}(:,3) = vd;
-PathStop(1) = length(PreparedPath{1})-1;
+
+ 
+% plot(PreparedPath{1}(:,1),PreparedPath{1}(:,2))
+% distance = 20;
+% xc = 0:0.1:distance;
+% yc = zeros(1,length(xc));
+% radius = 10;
+% xc = [xc radius*cos(pi/2:-pi/64:pi/4)+distance];
+% yc = [yc radius*sin(pi/2:-pi/64:pi/4)-radius];
+% ye = yc(end);
+% xe = xc(end);
+% yb = ye:-0.1*sin(pi/4):ye-2*distance*sin(pi/4);
+% xb = xe:0.1*cos(pi/4):xe+2*distance*cos(pi/4);
+% xc = [xc xb];
+% yc = [yc yb];
+% TestPath = [xc' yc'];
+% total_length = arclength(TestPath(:,1),TestPath(:,2),'linear');
+% PreparedPath{1} = interparc(0:(distanceStep/total_length):1,TestPath(:,1),TestPath(:,2),'linear');
+% yd = diff(PreparedPath{1}(:,2));
+% xd = diff(PreparedPath{1}(:,1));
+% vd = [atan2(yd,xd); atan2(yd(end),xd(end))];
+% PreparedPath{1}(:,3) = vd;
+% PathStop(1) = length(PreparedPath{1})-1;
 
 %%%%%%%%%%   Straight %%%%%%%%
 distance = 100;
@@ -82,7 +85,7 @@ for(j=1:1)
     RMSE(j,:) = [inf inf inf inf];
     stid(j,:) = [inf inf inf inf];
     for(i=1:4)
-        P_Lateral = 7;
+        P_Lateral = 5;
         I_Lateral = 0.1;
         D_Lateral = 0;
         
