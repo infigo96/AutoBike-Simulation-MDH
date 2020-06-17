@@ -106,6 +106,31 @@ xd = diff(SimulinkPath(:,1));
 vd = wrapTo180([atan2(yd,xd); atan2(yd(end),xd(end))]); 
 SimulinkPath(:,3) = vd; 
 PathData = length(SimulinkPath)-1; 
+
+% %%
+% w = warning ('off','all');
+% distanceStep = 0.001; 
+% distance = -30; 
+% startY = 50; 
+% startX = -1.3; 
+% radius = 15; 
+% angle = 0;
+% yc = 0:0.1*sin(angle):160*sin(angle);
+% xc = 0:0.1*cos(angle):160*cos(angle);
+% TestPath = [xc' yc'];
+% total_length = arclength(TestPath(:,1),TestPath(:,2),'linear'); %Arclenght and interparc interpolation not needed anymore. Regular interpolation is enough
+% SimulinkPath = interparc(0:(distanceStep/total_length):1,TestPath(:,1),TestPath(:,2),'linear');
+% yd = diff(SimulinkPath(:,2));
+% xd = diff(SimulinkPath(:,1));
+% vd = [atan2(yd,xd); atan2(yd(end),xd(end))];
+% SimulinkPath(:,3) = vd;
+% PathData = length(SimulinkPath)-1;
+% yd = diff(SimulinkPath(:,2)); 
+% xd = diff(SimulinkPath(:,1)); 
+% vd = wrapTo180([atan2(yd,xd); atan2(yd(end),xd(end))]); 
+% SimulinkPath(:,3) = vd; 
+% PathData = length(SimulinkPath)-1; 
+
 %%
 P_Lateral = 5;
 I_Lateral = 0.1;
