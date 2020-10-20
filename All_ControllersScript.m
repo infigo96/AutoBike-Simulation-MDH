@@ -68,11 +68,11 @@ sys = tf((a*v/(h*b))*[1,v/a],[1,0,-g/h]);
 Noise=1;
 
 %Initialise the state space with Init_Angle degree lean angle
-AngleGain = 0.5; %1 for model 1 guess and 0.5 for "new" model 1
-Init_Angle=0.2;
+AngleGain = 1; %No gain!. Tested others before. Remove in simulink
+Init_Angle= 0.2;
 Init_Yaw = -90;
-Init_X = -1.3;
-Init_Y = 50;
+Init_X = -10;
+Init_Y = 30;
 Init_condLQR=[0; deg2rad(Init_Angle); 0; 0];
 FinalValue=1; %disturbance amplitude
 
@@ -81,23 +81,55 @@ FinalValue=1; %disturbance amplitude
 [A,B,C,D]=tf2ss(sys.Numerator{1}, sys.Denominator{1});
 
 %%
+% w = warning ('off','all');
+% distanceStep = 0.001; 
+% distance = -30; 
+% startY = 50; 
+% startX = -1.3; 
+% radius = 15; 
+% yc = startY+0:-0.1:startY+distance; 
+% xc = startX*ones(1,length(yc)); 
+% xc = [xc radius*cos(0:-pi/128:-pi/2)-radius+xc(end)]; 
+% yc = [yc radius*sin(0:-pi/128:-pi/2)+yc(end)]; 
+% ye = yc(end); 
+% xe = xc(end); 
+% xb = xe:-0.1:xe+distance; 
+% yb = 0*ones(1,length(xb))+ye; 
+%  
+% xc = [xc xb]; 
+% yc = [yc yb]; 
+% TestPath = [xc' yc']; 
+% total_length = arclength(TestPath(:,1),TestPath(:,2),'linear'); 
+% SimulinkPath = interparc(0:(distanceStep/total_length):1,TestPath(:,1),TestPath(:,2),'linear'); 
+% yd = diff(SimulinkPath(:,2)); 
+% xd = diff(SimulinkPath(:,1)); 
+% vd = wrapTo180([atan2(yd,xd); atan2(yd(end),xd(end))]); 
+% SimulinkPath(:,3) = vd; 
+% PathData = length(SimulinkPath)-1; 
+
+%
 w = warning ('off','all');
-distanceStep = 0.001; 
-distance = -30; 
-startY = 50; 
-startX = -1.3; 
-radius = 15; 
-yc = startY+0:-0.1:startY+distance; 
-xc = startX*ones(1,length(yc)); 
-xc = [xc radius*cos(0:-pi/128:-pi/2)-radius+xc(end)]; 
-yc = [yc radius*sin(0:-pi/128:-pi/2)+yc(end)]; 
-ye = yc(end); 
-xe = xc(end); 
-xb = xe:-0.1:xe+distance; 
-yb = 0*ones(1,length(xb))+ye; 
+distanceStep = 0.05; 
+distance = 30; 
+startY = 30; 
+startX = -10; 
+radius = 10; 
+InitAngle = -10*pi/24;
+yc = startY:0.1*(sin(InitAngle)):startY+distance*sin(InitAngle); 
+xc = startX:0.1*(cos(InitAngle)):startX+distance*cos(InitAngle); 
+xs = radius*cos(InitAngle-pi/2:pi/128:InitAngle+2*pi-pi/2)+xc(end)+radius*cos(InitAngle+pi/2); 
+ys = radius*sin(InitAngle-pi/2:pi/128:InitAngle+2*pi-pi/2)+yc(end)+radius*sin(InitAngle+pi/2);
+xs2 = radius*cos(InitAngle+pi/2:-pi/128:InitAngle-1*pi-pi/2)+xc(end)-radius*cos(InitAngle+pi/2); 
+ys2 = radius*sin(InitAngle+pi/2:-pi/128:InitAngle-1*pi-pi/2)+yc(end)-radius*sin(InitAngle+pi/2);
+xs = [xs xs2 xs xs2 xs xs2];
+ys = [ys ys2 ys ys2 ys ys2];
+ye = ys(end); 
+xe = xs(end);
+xb = xe:0.1*(cos(InitAngle)):xe+distance*cos(InitAngle);
+yb = ye:0.1*(sin(InitAngle)):ye+distance*sin(InitAngle);
  
-xc = [xc xb]; 
-yc = [yc yb]; 
+xc = [xc xs xb]; 
+yc = [yc ys yb]; 
 TestPath = [xc' yc']; 
 total_length = arclength(TestPath(:,1),TestPath(:,2),'linear'); 
 SimulinkPath = interparc(0:(distanceStep/total_length):1,TestPath(:,1),TestPath(:,2),'linear'); 
@@ -106,30 +138,9 @@ xd = diff(SimulinkPath(:,1));
 vd = wrapTo180([atan2(yd,xd); atan2(yd(end),xd(end))]); 
 SimulinkPath(:,3) = vd; 
 PathData = length(SimulinkPath)-1; 
-
-% %%
-% w = warning ('off','all');
-% distanceStep = 0.001; 
-% distance = -30; 
-% startY = 50; 
-% startX = -1.3; 
-% radius = 15; 
-% angle = 0;
-% yc = 0:0.1*sin(angle):160*sin(angle);
-% xc = 0:0.1*cos(angle):160*cos(angle);
-% TestPath = [xc' yc'];
-% total_length = arclength(TestPath(:,1),TestPath(:,2),'linear'); %Arclenght and interparc interpolation not needed anymore. Regular interpolation is enough
-% SimulinkPath = interparc(0:(distanceStep/total_length):1,TestPath(:,1),TestPath(:,2),'linear');
-% yd = diff(SimulinkPath(:,2));
-% xd = diff(SimulinkPath(:,1));
-% vd = [atan2(yd,xd); atan2(yd(end),xd(end))];
-% SimulinkPath(:,3) = vd;
-% PathData = length(SimulinkPath)-1;
-% yd = diff(SimulinkPath(:,2)); 
-% xd = diff(SimulinkPath(:,1)); 
-% vd = wrapTo180([atan2(yd,xd); atan2(yd(end),xd(end))]); 
-% SimulinkPath(:,3) = vd; 
-% PathData = length(SimulinkPath)-1; 
+plot(SimulinkPath(:,1),SimulinkPath(:,2))
+xlim([-50 50])
+ylim([-50 50])
 
 %%
 P_Lateral = 5;
